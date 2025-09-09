@@ -13,8 +13,11 @@ class ExpenseListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         date = self.request.GET.get("date")
-        if date:  # filter by selected date
+        category = self.request.GET.get("category")
+        if date: 
             queryset = queryset.filter(create__date=date)
+        if category:
+            queryset = queryset.filter(category=category)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -31,3 +34,5 @@ class ExpenseCreateView(CreateView):
     template_name = "add_expense.html"
     fields = "__all__"
     success_url = reverse_lazy("expense_list")
+
+    
